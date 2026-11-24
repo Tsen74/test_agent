@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antigravity 破冰成功！</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      padding: 20px;
+    }
+
+    /* 粉彩漸層卡片 */
+    .card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.85));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 28px;
+      padding: 48px 36px;
+      box-shadow: 0 20px 40px rgba(166, 193, 238, 0.4),
+                  0 8px 16px rgba(251, 194, 235, 0.25);
+      text-align: center;
+      max-width: 440px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(166, 193, 238, 0.5),
+                  0 12px 24px rgba(251, 194, 235, 0.35);
+    }
+
+    .card-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.05em;
+    }
+
+    /* 精美發光按鈕 */
+    .glow-btn {
+      position: relative;
+      font-family: inherit;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(135deg, #845ec2, #d65db1, #ff6f91);
+      background-size: 200% 200%;
+      border: none;
+      border-radius: 50px;
+      padding: 16px 36px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(214, 93, 177, 0.5),
+                  0 0 30px rgba(132, 94, 194, 0.35);
+      transition: all 0.3s ease;
+      outline: none;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .glow-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(214, 93, 177, 0.8),
+                  0 0 50px rgba(132, 94, 194, 0.55);
+    }
+
+    .glow-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* 點擊統計與話語區塊 */
+    .result-container {
+      margin-top: 32px;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .counter-badge {
+      display: inline-block;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #555;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(220, 220, 240, 0.8);
+    }
+
+    .counter-badge span {
+      font-weight: 700;
+      color: #845ec2;
+      font-size: 1.1rem;
+    }
+
+    .quote-box {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #3f3d56;
+      line-height: 1.5;
+      padding: 0 10px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .quote-box.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1 class="card-title">Antigravity破冰成功！</h1>
+    <button id="icebreakerBtn" class="glow-btn">✨ 點我破冰 ✨</button>
+
+    <div class="result-container">
+      <div class="counter-badge">
+        累計點擊次數：<span id="clickCount">0</span> 次
+      </div>
+      <div id="quoteText" class="quote-box">
+        點擊上方按鈕，開啟驚喜！
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const quotes = [
+      "踏出第一步，就是解鎖无限可能的開始！✨",
+      "每一次嘗試，都在為下一次突破積蓄力量！🚀",
+      "保持好奇與熱愛，代碼世界正為你展開！💻",
+      "小小的累積，正在成就非凡的自己！🌱",
+      "突破思維引力，探索自由翱翔的宇宙！🌌",
+      "今天種下的靈感種子，明天將開出燦爛繁花！🌸",
+      "相信自己，你具備創造奇蹟的所有潛能！🌟",
+      "旅程已經啟航，每一行代碼都閃爍著光芒！✨"
+    ];
+
+    let count = 0;
+    const btn = document.getElementById('icebreakerBtn');
+    const counterEl = document.getElementById('clickCount');
+    const quoteEl = document.getElementById('quoteText');
+
+    btn.addEventListener('click', () => {
+      count++;
+      counterEl.textContent = count;
+
+      // 隨機選取一句鼓勵小話（避免連續出現同一句）
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const randomQuote = quotes[randomIndex];
+
+      // 淡入動畫效果
+      quoteEl.classList.remove('visible');
+      setTimeout(() => {
+        quoteEl.textContent = randomQuote;
+        quoteEl.classList.add('visible');
+      }, 150);
+    });
+
+    // 初次載入展示引言
+    setTimeout(() => {
+      quoteEl.classList.add('visible');
+    }, 200);
+  </script>
+
+</body>
+</html>
